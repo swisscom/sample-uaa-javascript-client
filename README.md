@@ -15,7 +15,7 @@ git clone https://github.com/swisscom/sample-uaa-javascript-client.git
 
 ### Adapt the config
 
-Adapt the `manifest.yml` to include the route which you want to assign, the redirect url and the desired scopes  . Note that you will also need to reference this route in the service instance creation step below.
+Adapt the `manifest.yml` to include the route which you want to assign, the redirect url and the desired scopes. Note that you will also need to reference this route in the service instance creation step below.
 
 ```
 ---
@@ -33,7 +33,7 @@ applications:
 
 ### Create an instance of the UAA service
 
-Use the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) to create a UAA oauth2 service instance (provider specific) and bind the service instance to the app. The app then selects the first service instance bound to it. VCAP_SERVICES Example (extract):
+Use the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) to create a UAA oauth2 service instance (provider specific) and bind the service instance to the app. The app then selects the first service instance bound to it. VCAP_SERVICES example (extract):
 
 ```
 CREDENTIALS='{
