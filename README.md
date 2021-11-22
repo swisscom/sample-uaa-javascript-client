@@ -15,7 +15,7 @@ git clone https://github.com/swisscom/sample-uaa-javascript-client.git
 
 ### Adapt the config
 
-Adapt the `manifest.yml` to include the route which you want to assign to your app as well as the URL of the resource server. Note that you will also need to reference this route in the service instance creation step below.
+Adapt the `manifest.yml` to include the route which you want to assign, the redirect url and the desired scopes  . Note that you will also need to reference this route in the service instance creation step below.
 
 ```
 ---
@@ -26,11 +26,14 @@ applications:
       - route: <provide a route for your app>
     services:
       - oauth2
+    env:
+      REDIRECT_URI: <your app's route>/callback
+      SCOPES: openid, phone
 ```
 
 ### Create an instance of the UAA service
 
-Use the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) to create a UAA oauth2 service instance (provider specific) and bind the service instance to the app. The app then selects the first service instance bound to it. 
+Use the [Cloud Foundry CLI](https://github.com/cloudfoundry/cli) to create a UAA oauth2 service instance (provider specific) and bind the service instance to the app. The app then selects the first service instance bound to it. VCAP_SERVICES Example (extract):
 
 ```
 CREDENTIALS='{
@@ -39,7 +42,7 @@ CREDENTIALS='{
   "introspectEndpoint": "<uaa-url>/introspect",
   "logoutEndpoint": "<uaa-url>/logout.do",
   "authorizationEndpoint": "<uaa-url>/oauth/authorize",
-  "redirectUris": "<your app's route>/callback",
+  "redirectUris": "<your app's route>/**",
   "accessTokenValidity": "14400",
   "tokenEndpoint": "<uaa-url>/oauth/token",
   "grantTypes": "refresh_token,authorization_code",
