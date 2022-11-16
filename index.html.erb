@@ -89,14 +89,19 @@ if(q.code) {
     } else {
 
         // Exchange the authorization code for an access token
-        sendPostRequest(config.service_credentials.tokenEndpoint, {
+        var param = {
             grant_type: "authorization_code",
             code: q.code,
             client_id: config.service_credentials.clientId,
             client_secret: config.service_credentials.clientSecret,
             redirect_uri: config.redirect_uri,
             code_verifier: localStorage.getItem("pkce_code_verifier")
-        }, function(request, bodyPost) {
+        };
+        if (typeof config.service_credentials.clientSecret === 'undefined') {
+          delete param["client_secret"];
+        }
+        sendPostRequest(config.service_credentials.tokenEndpoint, param
+        , function(request, bodyPost) {
 
             sendGetRequest(config.service_credentials.userInfoEndpoint, bodyPost.access_token,
                 function(request, bodyGet) {
