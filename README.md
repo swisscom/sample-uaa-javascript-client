@@ -17,6 +17,8 @@ git clone https://github.com/swisscom/sample-uaa-javascript-client.git
 
 Adapt the `manifest.yml` to include the route which you want to assign, the redirect url and the desired scopes. Note that you will also need to reference this route in the service instance creation step below.
 
+ALLOW_PUBLIC: here you can set if the client_secret should be used or not. When ALLOW_PUBLIC is set to true, the client_secret is not used. Corresponds to the UAA allowpublic feature, see https://docs.cloudfoundry.org/api/uaa/version/76.3.0/index.html#authorization-code-grant-2 
+
 ```
 ---
 applications:
@@ -29,6 +31,7 @@ applications:
     env:
       REDIRECT_URI: <your app's route>/callback
       SCOPES: openid, phone
+      ALLOW_PUBLIC: true
 ```
 
 ### Create an instance of the UAA service
