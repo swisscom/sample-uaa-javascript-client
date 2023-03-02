@@ -17,7 +17,12 @@ git clone https://github.com/swisscom/sample-uaa-javascript-client.git
 
 Adapt the `manifest.yml` to include the route which you want to assign, the redirect url and the desired scopes. Note that you will also need to reference this route in the service instance creation step below.
 
-ALLOW_PUBLIC: here you can set if the client_secret should be used or not. When ALLOW_PUBLIC is set to true, the client_secret is not used. Corresponds to the UAA allowpublic feature, see https://docs.cloudfoundry.org/api/uaa/version/76.3.0/index.html#authorization-code-grant-2 
+#### ALLOW_PUBLIC:
+
+Here you can set if the client_secret should be used or not in case the service instance provides a client_secret. 
+If ALLOW_PUBLIC is set to true, the client_secret will be removed (.profile). See also further below on describing the CREDENTIALS.
+Corresponds to the UAA allowpublic feature, see https://docs.cloudfoundry.org/api/uaa/version/76.3.0/index.html#authorization-code-grant-2 
+
 
 ```
 ---
@@ -54,6 +59,14 @@ CREDENTIALS='{
   "userInfoEndpoint": "<uaa-url>/userinfo"
 }'
 ```
+#### Info "public" client:
+
+If a service instance with the grant_type "authorization_code" was created with the optional allowpublic parameter then the VCAP_SERVICES/Service-Key (offered from the broker binding) does not offer the client_secret for this client even internally a client_secret has been set.
+
+Such a "public" client has an internal setting and shows an attribute like "allowpublic: true" and allows to omit the client_secret for the PKCE flow.
+In this case the removal of an existing client_secret described earlier above with setting the ALLOW_PUBLIC environment variable is not needed.
+A "confidential" client (has no allowpublic setting) however cannot omit the client_secret and should not be used for web applications (SPA).   
+
 
 ### Push the app
 
