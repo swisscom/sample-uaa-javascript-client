@@ -29,6 +29,9 @@ Corresponds to the UAA allowpublic feature, see https://docs.cloudfoundry.org/ap
 applications:
   - name: sample-uaa-javascript-client
     memory: 64MB
+    buildpacks:
+    - ruby_buildpack
+    - staticfile_buildpack
     routes:
       - route: <provide a route for your app>
     services:
